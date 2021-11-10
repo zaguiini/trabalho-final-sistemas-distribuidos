@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
-const pkgDir = require("pkg-dir");
+const dotEnv = require("dotenv");
+const fs = require("fs");
 const path = require("path");
 const zipDirectory = require("./lib/zipDirectory");
 const exec = require("./lib/exec");
@@ -7,7 +8,14 @@ const exec = require("./lib/exec");
 const s3 = new AWS.S3();
 const ebs = new AWS.ElasticBeanstalk();
 
-const deployApp = async ({ appName, envName, bucketName, version, source }) => {
+const deployApp = async ({
+  appName,
+  envName,
+  bucketName,
+  version,
+  source,
+  envVars,
+}) => {
   const appPackageFileName = `${appName}-${version}.zip`;
 
   console.log(`Zipping content for ${appName}...`);
@@ -45,6 +53,7 @@ const deployApp = async ({ appName, envName, bucketName, version, source }) => {
     .updateEnvironment({
       EnvironmentName: envName,
       VersionLabel: version,
+      OptionSettings: envVars,
     })
     .promise();
 
@@ -53,12 +62,19 @@ const deployApp = async ({ appName, envName, bucketName, version, source }) => {
 
 const deploy = async () => {
   const version = await exec("git rev-parse --short HEAD");
-  const root = await pkgDir();
+  const root = process.cwd();
+
+  const envVars = dotEnv.parse(fs.readFileSync(path.resolve(root, ".env")));
 
   await deployApp({
     appName: process.env.AWS_EB_APP_NAME,
     envName: process.env.AWS_EB_ENV_NAME,
     bucketName: process.env.AWS_EB_BUCKET_NAME,
+    envVars: Object.entries(envVars).map(([OptionName, Value]) => ({
+      Namespace: "aws:elasticbeanstalk:application:environment",
+      OptionName,
+      Value,
+    })),
     version,
     source: path.resolve(root, "src"),
   });
