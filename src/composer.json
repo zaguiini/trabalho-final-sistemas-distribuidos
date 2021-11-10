@@ -1,0 +1,13 @@
+{
+    "name": "furb/trabalho-final-sistemas-distribuidos",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Luis Felipe Zaguini",
+            "email": "luisfelipezaguini@gmail.com"
+        }
+    ],
+    "require": {
+        "deliciousbrains/wp-migrations": "^2.0"
+    }
+}

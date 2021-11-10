@@ -1,0 +1,42 @@
+version: "3.7"
+services:
+  platform:
+    networks:
+      - platform-network
+    depends_on:
+      database:
+        condition: service_healthy
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    volumes:
+      - ./src/wp-content:/var/www/app/wp-content
+      - ./src/migrations:/var/www/app/app/migrations
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    tty: true
+
+  database:
+    image: mysql:5.7.26
+    networks:
+      - platform-network
+    environment:
+      MYSQL_DATABASE: ${WORDPRESS_DATABASE_NAME}
+      MYSQL_USER: ${WORDPRESS_DATABASE_USER}
+      MYSQL_ROOT_PASSWORD: ${WORDPRESS_DATABASE_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "database"]
+      interval: 1s
+      timeout: 20s
+      retries: 10
+
+networks:
+  platform-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
