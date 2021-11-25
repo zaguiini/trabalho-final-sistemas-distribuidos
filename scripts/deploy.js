@@ -61,7 +61,8 @@ const deployApp = async ({
 };
 
 const deploy = async () => {
-  const version = await exec("git rev-parse --short HEAD");
+  const version =
+    process.env.VERSION || (await exec("git rev-parse --short HEAD"));
   const root = process.cwd();
 
   const envVars = dotEnv.parse(fs.readFileSync(path.resolve(root, ".env")));
