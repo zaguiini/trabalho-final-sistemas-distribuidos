@@ -1,4 +1,4 @@
 node_modules
-vendor
 .env
+src/vendor
 src/wp-content/plugins/s3-uploads
