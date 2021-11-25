@@ -77,9 +77,11 @@ $table_prefix = 'wp_';
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
-define( 'WP_DEBUG', getenv('WORDPRESS_ENABLE_DEBUGGING') );
+define( 'WP_DEBUG', getenv( 'WORDPRESS_ENABLE_DEBUGGING' ) );
 
 /* That's all, stop editing! Happy publishing. */
+define( 'WP_HOME', getenv( 'WORDPRESS_URL' ) );
+define( 'WP_SITEURL', getenv( 'WORDPRESS_URL' ) );
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
