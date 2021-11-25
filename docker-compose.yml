@@ -10,6 +10,7 @@ services:
       context: ./src
       dockerfile: Dockerfile
     volumes:
+      - "./src/wp-config.php:/var/www/app/wp-config.php"
       - ./src/wp-content:/var/www/app/wp-content
       - ./src/migrations:/var/www/app/app/migrations
     env_file:

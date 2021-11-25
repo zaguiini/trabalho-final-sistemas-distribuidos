@@ -8,6 +8,7 @@
         }
     ],
     "require": {
-        "deliciousbrains/wp-migrations": "^2.0"
+        "deliciousbrains/wp-migrations": "^2.0",
+        "humanmade/s3-uploads": "^3.0"
     }
 }

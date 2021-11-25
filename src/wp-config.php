@@ -18,6 +18,8 @@
  * @package WordPress
  */
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', getenv('WORDPRESS_DATABASE_NAME') );
@@ -83,13 +85,17 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
 	$_SERVER['HTTPS'] = 'on';
 }
 
-define( 'WP_HOME', getenv( 'WORDPRESS_URL' ) );
-define( 'WP_SITEURL', getenv( 'WORDPRESS_URL' ) );
-
 if (getenv('WORDPRESS_ENV') == 'production') {
+	define( 'WP_HOME', getenv( 'WORDPRESS_URL' ) );
+	define( 'WP_SITEURL', getenv( 'WORDPRESS_URL' ) );
 	define('FORCE_SSL_ADMIN', true);
 	define('FORCE_SSL_LOGIN', true);
 }
+
+define( 'S3_UPLOADS_BUCKET', getenv('WORDPRESS_S3_BUCKET') );
+define( 'S3_UPLOADS_REGION', getenv('WORDPRESS_S3_REGION') );
+define( 'S3_UPLOADS_KEY', getenv('WORDPRESS_S3_ACCESS_KEY') );
+define( 'S3_UPLOADS_SECRET', getenv('WORDPRESS_S3_SECRET_KEY') );
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
