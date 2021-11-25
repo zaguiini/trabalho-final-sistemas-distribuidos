@@ -82,6 +82,7 @@ define( 'WP_DEBUG', getenv( 'WORDPRESS_ENABLE_DEBUGGING' ) );
 /* That's all, stop editing! Happy publishing. */
 define( 'WP_HOME', getenv( 'WORDPRESS_URL' ) );
 define( 'WP_SITEURL', getenv( 'WORDPRESS_URL' ) );
+define( 'FORCE_SSL_ADMIN', true );
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
