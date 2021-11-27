@@ -1,5 +1,5 @@
 <?php
 
-// require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
-// \DeliciousBrains\WPMigrations\Database\Migrator::instance();
+\DeliciousBrains\WPMigrations\Database\Migrator::instance();

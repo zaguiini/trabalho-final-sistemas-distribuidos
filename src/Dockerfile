@@ -14,6 +14,12 @@ RUN chmod +x /usr/local/bin/wp
 
 COPY wp-config.php .
 COPY wp-content wp-content
+COPY migrations app/migrations
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY composer.json .
+COPY composer.lock .
+RUN composer install
 
 COPY setup.sh .
 
