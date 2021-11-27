@@ -10,13 +10,13 @@ services:
       context: ./src
       dockerfile: Dockerfile
     volumes:
-      - "./src/wp-config.php:/var/www/app/wp-config.php"
-      - ./src/wp-content:/var/www/app/wp-content
-      - ./src/migrations:/var/www/app/app/migrations
+      - "./src/wp-config.php:/usr/share/nginx/html/wp-config.php"
+      - ./src/wp-content:/usr/share/nginx/html/wp-content
+      - ./src/migrations:/usr/share/nginx/html/app/migrations
     env_file:
       - .env
     ports:
-      - "8080:8080"
+      - "8080:80"
     tty: true
 
   database:

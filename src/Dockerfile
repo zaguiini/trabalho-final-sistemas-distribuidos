@@ -1,20 +1,21 @@
-FROM romeoz/docker-apache-php:7.3
+FROM wyveo/nginx-php-fpm:php73
 
-RUN apt-get update && apt-get install less unzip
+WORKDIR /usr/share/nginx/html
+
+RUN apt-get update && apt-get -y install curl unzip
 
 RUN curl https://wordpress.org/latest.zip -o wordpress.zip
 RUN unzip wordpress.zip
 RUN mv wordpress/* .
 RUN rm -rf wordpress.zip wp-config-sample.php wp-content
 
-COPY site-config.conf /etc/apache2/sites-enabled/000-default.conf
-COPY ports.conf /etc/apache2/ports.conf
+RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp
+RUN chmod +x /usr/local/bin/wp
 
 COPY wp-config.php .
-COPY htaccess-template .htaccess
 COPY wp-content wp-content
 
 COPY setup.sh .
 
-EXPOSE 8080
+EXPOSE 80
 CMD ["./setup.sh"]
