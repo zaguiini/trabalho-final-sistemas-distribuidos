@@ -1,4 +1,5 @@
 node_modules
+__pycache__
 .env
 src/vendor
 src/wp-content/plugins/s3-uploads
