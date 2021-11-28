@@ -2,8 +2,8 @@ const AWS = require("aws-sdk");
 const dotEnv = require("dotenv");
 const fs = require("fs");
 const path = require("path");
-const zipDirectory = require("./lib/zipDirectory");
 const exec = require("./lib/exec");
+const zipDirectory = require("./lib/zipDirectory");
 
 const s3 = new AWS.S3();
 const ebs = new AWS.ElasticBeanstalk();
@@ -13,15 +13,19 @@ const deployApp = async ({
   envName,
   bucketName,
   version,
-  source,
   envVars,
+  source,
 }) => {
   const appPackageFileName = `${appName}-${version}.zip`;
+  const imageName = `${process.env.DOCKER_REPOSITORY}/${appName}:${version}`;
 
-  console.log(`Zipping content for ${appName}...`);
+  console.log(`Building ${imageName}...`);
+
+  await exec(`docker build ${source} -t ${imageName}`);
+  await exec(`docker push ${imageName}`);
 
   const zipFile = await zipDirectory({
-    source,
+    imageName,
   });
 
   console.log("Uploading content...");

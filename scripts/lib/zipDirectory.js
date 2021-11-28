@@ -1,32 +1,26 @@
-const archiver = require("archiver");
-const buffer = require("stream-buffers");
-const fs = require("fs");
-const path = require("path");
+const AdmZip = require("adm-zip");
 
-const getGitIgnoreEntries = ({ source }) => {
-  const filePath = path.resolve(process.cwd(), ".gitignore");
-  const gitIgnore = fs.readFileSync(filePath).toString();
+const zipDirectory = ({ imageName }) => {
+  return new Promise((resolve) => {
+    const zip = new AdmZip();
 
-  return gitIgnore
-    .split(/\r?\n/)
-    .filter((entry) => entry.startsWith(path.basename(source)));
-};
-
-const zipDirectory = ({ source }) => {
-  const archive = archiver("zip", { zlib: { level: 9 } });
-  const stream = new buffer.WritableStreamBuffer();
-
-  return new Promise((resolve, reject) => {
-    archive.glob("**/*", {
-      cwd: source,
-      ignore: getGitIgnoreEntries({ source }),
+    const content = JSON.stringify({
+      AWSEBDockerrunVersion: "1",
+      Image: {
+        Name: imageName,
+      },
+      Ports: [
+        {
+          ContainerPort: "1234",
+        },
+      ],
     });
 
-    archive.on("error", (err) => reject(err)).pipe(stream);
+    zip.addFile("Dockerrun.aws.json", Buffer.alloc(content.length, content));
 
-    stream.on("close", () => resolve(stream.getContents()));
+    const buffer = zip.toBuffer();
 
-    archive.finalize();
+    resolve(buffer);
   });
 };
 
