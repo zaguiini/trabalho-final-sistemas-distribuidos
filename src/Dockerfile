@@ -1,5 +1,7 @@
 FROM wyveo/nginx-php-fpm:php73
 
+COPY 99-overrides.conf /etc/php/7.3/fpm/pool.d
+
 WORKDIR /usr/share/nginx/html
 
 RUN apt-get update && apt-get -y install curl unzip
