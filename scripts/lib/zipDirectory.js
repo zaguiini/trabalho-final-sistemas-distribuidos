@@ -11,7 +11,7 @@ const zipDirectory = ({ imageName }) => {
       },
       Ports: [
         {
-          ContainerPort: "1234",
+          ContainerPort: "80",
         },
       ],
     });
