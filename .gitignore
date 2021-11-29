@@ -3,3 +3,8 @@ __pycache__
 .env
 src/vendor
 src/wp-content/plugins/s3-uploads
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
