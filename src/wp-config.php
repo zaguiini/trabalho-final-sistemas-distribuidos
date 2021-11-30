@@ -81,16 +81,11 @@ $table_prefix = 'wp_';
  */
 define( 'WP_DEBUG', getenv( 'WORDPRESS_ENABLE_DEBUGGING' ) );
 
-if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
-	$_SERVER['HTTPS'] = 'on';
-}
 
-if (getenv('WORDPRESS_ENV') == 'production') {
-	define( 'WP_HOME', getenv( 'WORDPRESS_URL' ) );
-	define( 'WP_SITEURL', getenv( 'WORDPRESS_URL' ) );
-	define('FORCE_SSL_ADMIN', true);
-	define('FORCE_SSL_LOGIN', true);
-}
+define( 'WP_HOME', getenv( 'WORDPRESS_URL' ) );
+define( 'WP_SITEURL', getenv( 'WORDPRESS_URL' ) );
+define( 'FORCE_SSL_ADMIN', false );
+define( 'FORCE_SSL_LOGIN', false );
 
 define( 'S3_UPLOADS_BUCKET', getenv('WORDPRESS_S3_BUCKET') );
 define( 'S3_UPLOADS_REGION', getenv('WORDPRESS_S3_REGION') );
